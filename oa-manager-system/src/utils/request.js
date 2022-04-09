@@ -95,12 +95,13 @@ service.interceptors.response.use(function (response) {
 });
 
 
+
 function request(options){
+  options.method = options.method || "GET"
   if(options.method.toLowerCase() == "get"){
     options.params = options.data
   }
   return service(options)
 }
-
 
 export default request

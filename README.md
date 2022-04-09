@@ -2,6 +2,35 @@
 OA后台管理系统
 
 
+命名空间：
+    namespace : "oa"    
+    data : {userinfo : {name:jack,age : 100}}
+    name : "jack"
+
+    userinfo : "{name:jack, role : 0}"
+
+
+    oa : {userinfo : {name : "jack", role : 0}}
+    
+    localstorage.setItem(namespace,JSON.stringify(data))
+
+    data[userinfo].role = 1
+
+    const data = localstorage.getItem(namespace)
+    
+
+    admin : {userinfo : {name : "jack", role : 0}}
+
+    h5 : {userinfo : {name : "jack", role : 0}}
+
+    pc : {userinfo : {name : "jack", role : 0}}
+
+    admin
+        userinfo
+    h5
+        userinfo
+    pc
+        userinfo
 问题： 
 
 import request from "request"
