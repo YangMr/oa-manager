@@ -16,8 +16,11 @@
  */
 
 import axios from "axios"
-import { ElLoading } from 'element-plus'
+import store from "../store"
+import { ElLoading,ElMessage } from 'element-plus'
 
+const TOKEN_INVALID = 'Token认证失败，请重新登录'
+const NETWORK_ERROR = '网络请求异常，请稍后重试'
 
 const loading = {
   loadingInstance : null,
@@ -38,8 +41,6 @@ const loading = {
   }
 }
 
-loading.open()
-
 const service = axios.create({
   baseURL : process.env.VUE_APP_BASE_API,
   timeout : 5000
@@ -59,9 +60,7 @@ const service = axios.create({
  */
 service.interceptors.request.use(function (config) {
   loading.open()
-
-  // TODO 获取本地存储的token 或者 获取vuex内存储token 通过请求头将token发送给后台
-  const token = ""
+  const token = store.state.userInfo.token || ""
   if(token){
     config.headers.Authorization = "Bearer " + token
   }
@@ -81,13 +80,16 @@ service.interceptors.request.use(function (config) {
  */
 service.interceptors.response.use(function (response) {
   loading.close()
-  const code = response.data.data.code
-  if(code == 200){
-    return response.data
-  }
-  if(code == 50001){
-    // TODO 过期处理 1. 请求本地和vuex存储的token以及用户信息 2. 退出登录
-    return
+  const {code, data , msg} = response.data
+  if(code === 200){
+    return data
+  }else if(code === 500001){
+    ElMessage.error(TOKEN_INVALID)
+    store.dispatch("handleUserLogout")
+    return Promise.reject(TOKEN_INVALID)
+  }else{
+    ElMessage.error(msg||NETWORK_ERROR)
+    return Promise.reject(msg || NETWORK_ERROR)
   }
 }, function (error) {
   loading.close()

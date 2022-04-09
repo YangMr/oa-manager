@@ -2,7 +2,9 @@
 OA后台管理系统
 
 
-命名空间：
+命名空间： 
+    git clone -b dev 远程仓库地址
+
     namespace : "oa"    
     data : {userinfo : {name:jack,age : 100}}
     name : "jack"
