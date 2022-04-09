@@ -7,11 +7,14 @@ const routes = [
     name: 'login',
     component: Login,
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   component: () => import('../views/About.vue'),
-  // },
+  {
+    path: '/',
+    name: 'layout',
+    component: () => import('../components/Layout'),
+    meta : {
+      title : "首页"
+    }
+  },
 ];
 
 const router = createRouter({
