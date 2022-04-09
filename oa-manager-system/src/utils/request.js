@@ -40,7 +40,7 @@ const loading = {
 
 loading.open()
 
-const request = axios.create({
+const service = axios.create({
   baseURL : process.env.VUE_APP_BASE_API,
   timeout : 5000
 })
@@ -57,7 +57,7 @@ const request = axios.create({
  *      需求：
  *            当用户对该接口已经请求成功了，就不在重复发送请求了
  */
-request.interceptors.request.use(function (config) {
+service.interceptors.request.use(function (config) {
   loading.open()
 
   // TODO 获取本地存储的token 或者 获取vuex内存储token 通过请求头将token发送给后台
@@ -79,7 +79,7 @@ request.interceptors.request.use(function (config) {
  *  3. 如果请求的状态码等于50001 , 则表示token以及过期, 请求本地和vuex存储的token以及用户信息 2. 退出登录
  *  4. 如果请求的状态不是200， 也不是50001， 我们需要通过message组件进行失败信息提示
  */
-request.interceptors.response.use(function (response) {
+service.interceptors.response.use(function (response) {
   loading.close()
   const code = response.data.data.code
   if(code == 200){
@@ -93,5 +93,14 @@ request.interceptors.response.use(function (response) {
   loading.close()
   return Promise.reject(error);
 });
+
+
+function request(options){
+  if(options.method.toLowerCase() == "get"){
+    options.params = options.data
+  }
+  return service(options)
+}
+
 
 export default request
