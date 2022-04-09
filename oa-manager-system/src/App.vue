@@ -3,7 +3,7 @@
 </template>
 
 <style lang="scss">
-@import "./assets/style/reset.css";
+//@import "./assets/style/reset.css";
 html,body,#app{
   width: 100%;
   height: 100%;

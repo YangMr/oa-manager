@@ -5,5 +5,6 @@ import store from './store';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import "./permissions"
+import "./utils/test"
 
 createApp(App).use(store).use(router).use(ElementPlus).mount('#app');
